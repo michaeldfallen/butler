@@ -11,6 +11,12 @@ into:
 
 Basically anything you do every day, let the Butler do it.
 
+##Installation
+
+Butler is easiest installed via homebrew:
+
+    > brew install michaeldfallen/formula/butler
+
 ##Usage
 
 Create a butlerfile to define your commands
@@ -22,7 +28,7 @@ then tell butler to do it
     > butler [command]
     Certainly...
 
-###Longer scripts
+###Longer scripts - coming soon
 
 For longer scripts just drop them in a `bin` folder
 
