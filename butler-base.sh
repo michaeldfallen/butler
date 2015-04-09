@@ -53,7 +53,7 @@ run_command() {
   fi
 }
 
-butler() {
+butler_exec() {
   local command="$@"
   local butlerfile='butlerfile'
   if [[ ! -f $butlerfile ]]; then

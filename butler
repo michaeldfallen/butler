@@ -15,4 +15,4 @@ dot="$(cd "$(dirname "$([ -L "$0" ] && $READLINK_CMD -f "$0" || echo "$0")")"; p
 
 source "$dot/butler-base.sh"
 
-butler "$@"
+butler_exec "$@"

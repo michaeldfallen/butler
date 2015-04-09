@@ -5,7 +5,7 @@ source "$dot/../butler-base.sh"
 
 test_no_butlerfile() {
   cd_to_tmp
-  output="$(butler)"
+  output="$(butler_exec)"
   assertEquals "error: No butlerfile found." "$output"
   rm_tmp
 }
@@ -18,7 +18,7 @@ commands:
 
   cd_to_tmp
   echo "run: foo" > butlerfile
-  output="$(butler)"
+  output="$(butler_exec)"
   assertEquals "$expected" "$output"
   rm_tmp
 }
@@ -29,7 +29,7 @@ $(usage)
 commands:"
   cd_to_tmp
   touch butlerfile
-  output="$(butler)"
+  output="$(butler_exec)"
   assertEquals "$expected" "$output"
   rm_tmp
 }
@@ -45,7 +45,7 @@ foo: echo \"Hello, world!\""
   cd_to_tmp
   echo "$commands" > butlerfile
 
-  output="$(butler foo)"
+  output="$(butler_exec foo)"
 
   assertEquals "$expected" "$output"
   rm_tmp
@@ -57,7 +57,7 @@ test_messages_if_command_not_found_in_butlerfile() {
   cd_to_tmp
   echo "bar: echo \"Hello, world!\"" > butlerfile
 
-  output="$(butler foo)"
+  output="$(butler_exec foo)"
 
   assertEquals "$expected" "$output"
   rm_tmp
@@ -73,7 +73,7 @@ foo: echo \"Hello, 3!\""
   cd_to_tmp
   echo "$commands" > butlerfile
 
-  output="$(butler foo)"
+  output="$(butler_exec foo)"
 
   assertEquals "$expected" "$output"
 
