@@ -94,9 +94,7 @@ bar: echo \"Hello, Bar!\""
   cd_to_tmp
   echo "$commands" > butlerfile
 
-  set -xv
   output="$(butler foo)"
-  set +xv
   assertEquals "$expectedFoo" "$output"
 
   output="$(butler bar)"
