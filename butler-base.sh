@@ -24,11 +24,14 @@ list_commands() {
 }
 
 execute() {
-  bash -c "$1"
+  local command="$1";shift;
+  local args=$@
+  bash -c "$command" -- $args
 }
 
 run_command() {
-  local targetname="$1"
+  local targetname="$1"; shift;
+  local args=$@
   local foundcommand=""
   local foundnum=0
 
@@ -49,12 +52,12 @@ run_command() {
     exit 1
   else
     echo "Executing $targetname: $foundcommand"
-    execute "$foundcommand"
+    execute "$foundcommand" $args
   fi
 }
 
 butler_exec() {
-  local command="$@"
+  local command="$1"; shift;
   local butlerfile='butlerfile'
   if [[ ! -f $butlerfile ]]; then
     error "No butlerfile found."
@@ -68,7 +71,7 @@ butler_exec() {
   fi
 
   if [[ -n "$command" ]]; then
-    run_command "$command"
+    run_command "$command" $@
     exit 0
   fi
   exit 1
