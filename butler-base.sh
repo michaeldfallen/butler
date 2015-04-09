@@ -29,6 +29,13 @@ execute() {
   bash -c "$command" -- $args
 }
 
+init_butlerfile() {
+  echo "Creating an example butlerfile with one command: hello"
+  echo "Try executing:"
+  echo "> butler hello"
+  echo "hello: echo \"Hello, World!\"" >> butlerfile
+}
+
 run_command() {
   local targetname="$1"; shift;
   local args=$@
@@ -59,6 +66,17 @@ run_command() {
 butler_exec() {
   local command="$1"; shift;
   local butlerfile='butlerfile'
+  if [[ "$1" == "--init" ]]; then
+    if [[ -f $butlerfile ]]; then
+      error "butlerfile already exists"
+      list_commands $butlerfile
+      exit 1
+    else
+      init_butlerfile
+      exit 0
+    fi
+  fi
+
   if [[ ! -f $butlerfile ]]; then
     error "No butlerfile found."
     exit 1
