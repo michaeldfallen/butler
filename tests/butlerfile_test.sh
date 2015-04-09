@@ -103,4 +103,24 @@ bar: echo \"Hello, Bar!\""
   rm_tmp
 }
 
+test_passes_args_to_command() {
+  expected="\
+Executing foo: echo \"Hello, \$1!\"
+Hello,"
+  commands="\
+foo: echo \"Hello, \$1!\""
+
+  cd_to_tmp
+  echo "$commands" > butlerfile
+
+  output="$(butler_exec foo "World")"
+  assertEquals "$expected World!" "$output"
+  output="$(butler_exec foo "Butler")"
+  assertEquals "$expected Butler!" "$output"
+  output="$(butler_exec foo "Michael" "Allen")"
+  assertEquals "$expected Michael Allen!" "$output"
+
+  rm_tmp
+}
+
 source "$dot/../shunit/shunit2"
