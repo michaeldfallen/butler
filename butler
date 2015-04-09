@@ -5,7 +5,7 @@
 # A task runner to simplify development
 # Let the Butler do it.
 
-dot="$(cd "$(dirname "$0")"; pwd)"
+dot="$(cd "$(dirname "$([ -L "$0" ] && readlink "$0" || echo "$0")")"; pwd)"
 
 source "$dot/butler-base.sh"
 
