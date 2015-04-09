@@ -17,6 +17,8 @@ Butler is easiest installed via homebrew:
 
     > brew install michaeldfallen/formula/butler
 
+Then run `butler --init` to create a sample butlerfile and get started.
+
 ##Usage
 
 Create a butlerfile to define your commands
