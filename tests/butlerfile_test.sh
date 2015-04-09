@@ -63,4 +63,21 @@ test_messages_if_command_not_found_in_butlerfile() {
   rm_tmp
 }
 
+test_reports_multiple_instance_of_command() {
+  expected="error: found 3 commands named foo, please fix your butlerfile"
+  commands="\
+foo: echo \"Hello, 1!\"
+foo: echo \"Hello, 2!\"
+foo: echo \"Hello, 3!\""
+
+  cd_to_tmp
+  echo "$commands" > butlerfile
+
+  output="$(butler foo)"
+
+  assertEquals "$expected" "$output"
+
+  rm_tmp
+}
+
 source "$dot/../shunit/shunit2"

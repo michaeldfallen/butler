@@ -30,16 +30,22 @@ execute() {
 run_command() {
   local targetname="$1"
   local foundcommand=""
+  local foundnum=0
+
   while read line || [[ -n "$line" ]]; do
     local name="${line%%:*}"
     local command="${line#*:[[:space:]]}"
     if [ "$name" == "$targetname" ]; then
       foundcommand="$command"
+      let foundnum+=1
     fi
   done < "$butlerfile"
 
   if [[ -z "$foundcommand" ]]; then
     error "$targetname doesn't exist in your butlerfile"
+    exit 1
+  elif [[ "$foundnum" -ne "1" ]]; then
+    error "found $foundnum commands named $targetname, please fix your butlerfile"
     exit 1
   else
     echo "Executing $targetname: $command"
