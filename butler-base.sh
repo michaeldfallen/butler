@@ -29,14 +29,22 @@ execute() {
 
 run_command() {
   local targetname="$1"
+  local foundcommand=""
   while read line || [[ -n "$line" ]]; do
     local name="${line%%:*}"
     local command="${line#*:[[:space:]]}"
-    if [[ "$name" -eq "$targetname" ]]; then
-      echo "Executing $line"
-      execute "$command"
+    if [ "$name" == "$targetname" ]; then
+      foundcommand="$command"
     fi
   done < "$butlerfile"
+
+  if [[ -z "$foundcommand" ]]; then
+    error "$targetname doesn't exist in your butlerfile"
+    exit 1
+  else
+    echo "Executing $targetname: $command"
+    execute "$command"
+  fi
 }
 
 butler() {

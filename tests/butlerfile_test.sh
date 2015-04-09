@@ -51,4 +51,16 @@ foo: echo \"Hello, world!\""
   rm_tmp
 }
 
+test_messages_if_command_not_found_in_butlerfile() {
+  expected="error: foo doesn't exist in your butlerfile"
+
+  cd_to_tmp
+  echo "bar: echo \"Hello, world!\"" > butlerfile
+
+  output="$(butler foo)"
+
+  assertEquals "$expected" "$output"
+  rm_tmp
+}
+
 source "$dot/../shunit/shunit2"
