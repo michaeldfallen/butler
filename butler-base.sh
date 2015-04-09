@@ -48,8 +48,8 @@ run_command() {
     error "found $foundnum commands named $targetname, please fix your butlerfile"
     exit 1
   else
-    echo "Executing $targetname: $command"
-    execute "$command"
+    echo "Executing $targetname: $foundcommand"
+    execute "$foundcommand"
   fi
 }
 

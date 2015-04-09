@@ -80,4 +80,29 @@ foo: echo \"Hello, 3!\""
   rm_tmp
 }
 
+test_only_execute_the_correct_command() {
+  expectedFoo="\
+Executing foo: echo \"Hello, Foo!\"
+Hello, Foo!"
+  expectedBar="\
+Executing bar: echo \"Hello, Bar!\"
+Hello, Bar!"
+  commands="\
+foo: echo \"Hello, Foo!\"
+bar: echo \"Hello, Bar!\""
+
+  cd_to_tmp
+  echo "$commands" > butlerfile
+
+  set -xv
+  output="$(butler foo)"
+  set +xv
+  assertEquals "$expectedFoo" "$output"
+
+  output="$(butler bar)"
+  assertEquals "$expectedBar" "$output"
+
+  rm_tmp
+}
+
 source "$dot/../shunit/shunit2"
