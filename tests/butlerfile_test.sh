@@ -11,7 +11,8 @@ test_no_butlerfile() {
 }
 
 test_should_list_commands_if_none_given() {
-  expected="$(usage)
+  expected="\
+$(usage)
 commands:
   run: foo"
 
@@ -23,11 +24,29 @@ commands:
 }
 
 test_should_list_no_commands_for_empty_butlerfile() {
-  expected="$(usage)
+  expected="\
+$(usage)
 commands:"
   cd_to_tmp
   touch butlerfile
   output="$(butler)"
+  assertEquals "$expected" "$output"
+  rm_tmp
+}
+
+test_runs_command_from_butlerfile() {
+  expected="\
+Executing foo: echo \"Hello, world!\"
+Hello, world!"
+
+  commands="\
+foo: echo \"Hello, world!\""
+
+  cd_to_tmp
+  echo "$commands" > butlerfile
+
+  output="$(butler foo)"
+
   assertEquals "$expected" "$output"
   rm_tmp
 }
