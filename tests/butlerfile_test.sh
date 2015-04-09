@@ -104,21 +104,33 @@ bar: echo \"Hello, Bar!\""
 }
 
 test_passes_args_to_command() {
-  expected="\
+  expectedBar="\
+Executing bar: echo \"Hello, \$1 \$2!\"
+Hello,"
+  expectedBaz="\
+Executing baz: echo \"Hello, \$@!\"
+Hello,"
+  expectedFoo="\
 Executing foo: echo \"Hello, \$1!\"
 Hello,"
   commands="\
-foo: echo \"Hello, \$1!\""
+foo: echo \"Hello, \$1!\"
+baz: echo \"Hello, \$@!\"
+bar: echo \"Hello, \$1 \$2!\""
 
   cd_to_tmp
   echo "$commands" > butlerfile
 
   output="$(butler_exec foo "World")"
-  assertEquals "$expected World!" "$output"
+  assertEquals "$expectedFoo World!" "$output"
   output="$(butler_exec foo "Butler")"
-  assertEquals "$expected Butler!" "$output"
+  assertEquals "$expectedFoo Butler!" "$output"
   output="$(butler_exec foo "Michael" "Allen")"
-  assertEquals "$expected Michael Allen!" "$output"
+  assertEquals "$expectedFoo Michael!" "$output"
+  output="$(butler_exec bar "Michael" "Allen")"
+  assertEquals "$expectedBar Michael Allen!" "$output"
+  output="$(butler_exec baz "Michael" "Allen")"
+  assertEquals "$expectedBaz Michael Allen!" "$output"
 
   rm_tmp
 }

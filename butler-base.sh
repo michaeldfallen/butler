@@ -25,13 +25,13 @@ list_commands() {
 
 execute() {
   local command="$1";shift;
-  local args="$@"
-  bash -c "$command" -- "$args"
+  local args=$@
+  bash -c "$command" -- $args
 }
 
 run_command() {
   local targetname="$1"; shift;
-  local args="$@"
+  local args=$@
   local foundcommand=""
   local foundnum=0
 
@@ -52,7 +52,7 @@ run_command() {
     exit 1
   else
     echo "Executing $targetname: $foundcommand"
-    execute "$foundcommand" "$args"
+    execute "$foundcommand" $args
   fi
 }
 
@@ -71,7 +71,7 @@ butler_exec() {
   fi
 
   if [[ -n "$command" ]]; then
-    run_command "$command" "$@"
+    run_command "$command" $@
     exit 0
   fi
   exit 1
