@@ -66,7 +66,7 @@ run_command() {
 butler_exec() {
   local command="$1"; shift;
   local butlerfile='butlerfile'
-  if [[ "$1" == "--init" ]]; then
+  if [[ "$command" == "--init" ]]; then
     if [[ -f $butlerfile ]]; then
       error "butlerfile already exists"
       list_commands $butlerfile
