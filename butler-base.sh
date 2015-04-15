@@ -23,6 +23,17 @@ list_commands() {
   done < "$butlerfile"
 }
 
+complete_command() {
+  local butlerfile="$1"; shift
+  local word="$@"
+  while read line || [[ -n "$line" ]]; do
+    local name="${line%%:*}"
+    if [[ "$name" == *"$word"* ]]; then
+      echo "$name"
+    fi
+  done < "$butlerfile"
+}
+
 execute() {
   local command="$1";shift;
   local args=$@
@@ -74,6 +85,15 @@ butler_exec() {
     else
       init_butlerfile
       exit 0
+    fi
+  fi
+
+  if [[ "$command" == "--cmplt" ]]; then
+    if [[ -f $butlerfile ]]; then
+      complete_command $butlerfile "$@"
+      exit 0
+    else
+      exit 1
     fi
   fi
 
