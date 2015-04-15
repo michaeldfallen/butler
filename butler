@@ -13,6 +13,11 @@ fi
 
 dot="$(cd "$(dirname "$([ -L "$0" ] && $READLINK_CMD -f "$0" || echo "$0")")"; pwd)"
 
+if [[ "$1" == "--init-completion" ]]; then
+  echo "$dot/init.sh"
+  exit 1
+fi
+
 source "$dot/butler-base.sh"
 
 butler_exec "$@"

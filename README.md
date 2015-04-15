@@ -19,6 +19,14 @@ Butler is easiest installed via homebrew:
 
 Then run `butler --init` to create a sample butlerfile and get started.
 
+###Bash and Zsh completion
+
+To enable completion add the following to your `~/.bashrc` or `~/.zshrc`:
+
+    source "$(butler --init-completion)"
+
+That will load the correct completion files for your shell.
+
 ##Usage
 
 Create a butlerfile to define your commands
