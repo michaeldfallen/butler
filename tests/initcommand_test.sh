@@ -33,6 +33,7 @@ Hello, World!"
   output="$(butler_exec --init)"
   assertEquals "$expectedInit" "$output"
 
+  record_test_hash "hello: echo \"Hello, World!\""
   output="$(butler_exec hello)"
   assertEquals "$expectedHello" "$output"
 

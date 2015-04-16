@@ -36,7 +36,17 @@ Create a butlerfile to define your commands
 then tell butler to do it
 
     > butler [command]
-    Certainly...
+    Executing [command]
+
+The first time you ask butler to run a command it will confirm with you that the
+command is safe:
+
+    > butler [command]
+    First time executing [command]: [shell command to run]
+    Execute [command]? (y)es, (n)o, just this (o)nce
+
+This way you can happily use other peoples butlerfile commands without worrying
+about them sneaking an `rm -rf ~` in to the script.
 
 ###Longer scripts - coming soon
 

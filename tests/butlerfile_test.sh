@@ -39,11 +39,8 @@ test_runs_command_from_butlerfile() {
 Executing foo: echo \"Hello, world!\"
 Hello, world!"
 
-  commands="\
-foo: echo \"Hello, world!\""
-
   cd_to_tmp
-  echo "$commands" > butlerfile
+  prep_command "foo: echo \"Hello, world!\""
 
   output="$(butler_exec foo)"
 
@@ -87,12 +84,10 @@ Hello, Foo!"
   expectedBar="\
 Executing bar: echo \"Hello, Bar!\"
 Hello, Bar!"
-  commands="\
-foo: echo \"Hello, Foo!\"
-bar: echo \"Hello, Bar!\""
 
   cd_to_tmp
-  echo "$commands" > butlerfile
+  prep_command "foo: echo \"Hello, Foo!\""
+  prep_command "bar: echo \"Hello, Bar!\""
 
   output="$(butler_exec foo)"
   assertEquals "$expectedFoo" "$output"
@@ -113,13 +108,11 @@ Hello,"
   expectedFoo="\
 Executing foo: echo \"Hello, \$1!\"
 Hello,"
-  commands="\
-foo: echo \"Hello, \$1!\"
-baz: echo \"Hello, \$@!\"
-bar: echo \"Hello, \$1 \$2!\""
 
   cd_to_tmp
-  echo "$commands" > butlerfile
+  prep_command "foo: echo \"Hello, \$1!\""
+  prep_command "baz: echo \"Hello, \$@!\""
+  prep_command "bar: echo \"Hello, \$1 \$2!\""
 
   output="$(butler_exec foo "World")"
   assertEquals "$expectedFoo World!" "$output"

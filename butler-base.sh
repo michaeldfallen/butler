@@ -34,10 +34,49 @@ complete_command() {
   done < "$butlerfile"
 }
 
+hash_this() {
+  echo "$@" | gsha256sum | sed 's/  -$//'
+}
+
+record_hash() {
+  local dot_butler="${DOT_BUTLER:-$HOME/.butler}"
+  if [ ! -d "$dot_butler" ]; then
+    mkdir -p "$dot_butler"
+  fi
+  touch "$dot_butler/$@"
+}
+
+can_continue() {
+  local dot_butler="${DOT_BUTLER:-$HOME/.butler}"
+  local name="$1"; shift;
+  local command="$1"; shift;
+  local hash="$(hash_this "$name: $command")"
+  if [ -f "$dot_butler/$hash" ]; then
+    return 0
+  else
+    echo "First time executing $name: $command"
+    echo "Execute $name? (y)es, (n)o, just this (o)nce"
+    read execute_permission
+    if [[ "$execute_permission" == "y" ]]; then
+      record_hash "$hash"
+      return 0
+    elif [[ "$execute_permission" == "n" ]]; then
+      exit 1
+    elif [[ "$execute_permission" == "o" ]]; then
+      return 0
+    fi
+    return 1
+  fi
+}
+
 execute() {
+  local name="$1";shift;
   local command="$1";shift;
   local args=$@
-  bash -c "$command" -- $args
+  if can_continue "$name" "$command"; then
+    echo "Executing $name: $command"
+    bash -c "$command" -- $args
+  fi
 }
 
 init_butlerfile() {
@@ -69,8 +108,7 @@ run_command() {
     error "found $foundnum commands named $targetname, please fix your butlerfile"
     exit 1
   else
-    echo "Executing $targetname: $foundcommand"
-    execute "$foundcommand" $args
+    execute "$targetname" "$foundcommand" $args
   fi
 }
 
