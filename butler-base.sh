@@ -39,7 +39,7 @@ hash_this() {
 }
 
 record_hash() {
-  local dot_butler="${DOT_BUTLER:-~/.butler}"
+  local dot_butler="${DOT_BUTLER:-$HOME/.butler}"
   if [ ! -d "$dot_butler" ]; then
     mkdir -p "$dot_butler"
   fi
@@ -47,13 +47,24 @@ record_hash() {
 }
 
 can_continue() {
-  local dot_butler="${DOT_BUTLER:-~/.butler}"
+  local dot_butler="${DOT_BUTLER:-$HOME/.butler}"
   local name="$1"; shift;
   local command="$1"; shift;
   local hash="$(hash_this "$name: $command")"
   if [ -f "$dot_butler/$hash" ]; then
     return 0
   else
+    echo "First time executing $name: $command"
+    echo "Execute $name? (y)es, (n)o, just this (o)nce"
+    read execute_permission
+    if [[ "$execute_permission" == "y" ]]; then
+      record_hash "$hash"
+      return 0
+    elif [[ "$execute_permission" == "n" ]]; then
+      exit 1
+    elif [[ "$execute_permission" == "o" ]]; then
+      return 0
+    fi
     return 1
   fi
 }

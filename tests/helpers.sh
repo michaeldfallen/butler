@@ -16,7 +16,7 @@ rm_tmp() {
 }
 
 empty_dot_butler() {
-  local dot_butler="${1:-${DOT_BUTLER:-~/.butler}}"
+  local dot_butler="${1:-${DOT_BUTLER:-$HOME/.butler}}"
   rm -r "$dot_butler"
 }
 
