@@ -5,6 +5,12 @@
 # The API for Butler.
 # Let the Butler do it.
 
+if [[ "$OSTYPE" == *darwin* ]]; then
+  SHA_CMD="gsha256sum"
+else
+  SHA_CMD="sha256sum"
+fi
+
 usage() {
   echo "usage:"
   echo "  butler [COMMAND]    # Run a command defined in your butlerfile"
@@ -35,7 +41,7 @@ complete_command() {
 }
 
 hash_this() {
-  echo "$@" | gsha256sum | sed 's/  -$//'
+  echo "$@" | $SHA_CMD | sed 's/  -$//'
 }
 
 record_hash() {
