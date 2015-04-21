@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 run_tests() {
   for t in tests/*_test.sh; do
