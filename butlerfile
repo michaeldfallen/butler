@@ -1,2 +1,1 @@
 test: ./test.sh
-tests: echo 'totally not tests, lolololol'
