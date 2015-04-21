@@ -48,6 +48,19 @@ command is safe:
 This way you can happily use other peoples butlerfile commands without worrying
 about them sneaking an `rm -rf ~` in to the script.
 
+###Setting the shell
+
+By default butler will look at `$SHELL`, which is set by most shells including
+ZSH. This should mean that butler will automatically use your default shell to
+execute commands.
+
+If `$SHELL` is not set it will fall back on Bash.
+
+If you want to set a specific shell for butler to use just export
+`$BUTLER_SHELL`:
+
+    > echo 'BUTLER_SHELL="/bin/dash"' >> ~/.zshrc
+
 ###Longer scripts - coming soon
 
 For longer scripts just drop them in a `bin` folder
