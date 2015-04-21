@@ -11,14 +11,13 @@ test_no_hash_file_yes() {
 
   expected="\
 First time executing foo: echo \"foo\"
-Execute foo? (y)es, (n)o, just this (o)nce"
+Execute foo? (y)es, (n)o, just this (o)nce: "
 
   command_execution="Executing foo: echo \"foo\"
 foo"
 
   output="$(butler_exec "foo" <<< "y")"
-  assertEquals "$expected
-$command_execution" "$output"
+  assertEquals "$expected$command_execution" "$output"
 
   output="$(butler_exec "foo")"
   assertEquals "$command_execution" "$output"
@@ -34,7 +33,7 @@ test_no_hash_file_no() {
 
   expected="\
 First time executing foo: echo \"foo\"
-Execute foo? (y)es, (n)o, just this (o)nce"
+Execute foo? (y)es, (n)o, just this (o)nce: "
 
   command_execution="Executing foo: echo \"foo\"
 foo"
@@ -56,18 +55,16 @@ test_no_hash_file_once() {
 
   expected="\
 First time executing foo: echo \"foo\"
-Execute foo? (y)es, (n)o, just this (o)nce"
+Execute foo? (y)es, (n)o, just this (o)nce: "
 
   command_execution="Executing foo: echo \"foo\"
 foo"
 
   output="$(butler_exec "foo" <<< "o")"
-  assertEquals "$expected
-$command_execution" "$output"
+  assertEquals "$expected$command_execution" "$output"
 
   output="$(butler_exec "foo" <<< "o")"
-  assertEquals "$expected
-$command_execution" "$output"
+  assertEquals "$expected$command_execution" "$output"
 
   rm_tmp
 }

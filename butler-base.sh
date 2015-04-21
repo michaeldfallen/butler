@@ -61,7 +61,7 @@ can_continue() {
     return 0
   else
     echo "First time executing $name: $command"
-    echo "Execute $name? (y)es, (n)o, just this (o)nce"
+    echo -n "Execute $name? (y)es, (n)o, just this (o)nce: "
     read execute_permission
     if [[ "$execute_permission" == "y" ]]; then
       record_hash "$hash"
