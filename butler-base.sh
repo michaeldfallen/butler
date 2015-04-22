@@ -81,8 +81,7 @@ execute() {
   local args=$@
   if can_continue "$name" "$command"; then
     echo "Executing $name: $command"
-    local shell=${BUTLER_SHELL:-${SHELL:-bash}}
-    $shell -c "$command" -- $args
+    bash -c "$command" -- $args
   fi
 }
 
